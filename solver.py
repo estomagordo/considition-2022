@@ -5,6 +5,8 @@ from solution import Solution
 bagType_price = [1.7, 1.75, 6, 25, 200]
 bagType_co2_production = [5, 7, 3, 6, 20]
 bagType_co2_transport = [50, 40, 60, 70, 100]
+bagType_reusable = [0, 1, 5, 9, 12]
+bagType_washtime = [1, 2, 3, 5, 7]
 
 from solution import Solution
 
@@ -15,13 +17,19 @@ class Solver:
         self.companyBudget = game_info['companyBudget']
         self.behavior = game_info['behavior']
         self.day = 0
+        self.bags = []
 
     def Solve(self, bagtype, days):
         self.days = days
+        self.price = bagType_price[bagtype-1]
+        self.co2_prod = bagType_co2_production[bagtype-1]
+        self.co2_trans = bagType_co2_transport[bagtype-1]
+        self.reusable = bagType_reusable[bagtype-1]
+        self.washtime = bagType_washtime[bagtype-1]
         self.solution = Solution('True', 7, 1, bagtype)
 
-        for _ in range(0, days):
-            self.solution.orders.append(self.newStrat(bagtype))
+        for _ in range(days):
+            self.solution.orders.append(self.newStrat())
             self.day += 1
         
         return self.solution
@@ -39,7 +47,22 @@ class Solver:
     def holdMoney(self, bagtype):
         return int(self.companyBudget / bagType_price[bagtype] / self.population / self.days)
 
-    def newStrat(self, bagtype):
-        if self.day % 2 == 0:
-            return int(self.population * 9.3)
-        return int(self.population * 0.0)
+    def newStrat(self):
+        for i in range(len(self.bags)):
+            w, r = self.bags[i]
+            self.bags[i] = [w-1, r]
+
+        if not self.bags:
+            self.bags.append([self.washtime, self.reusable])
+            return self.population * 9 + 5
+        
+        for i in range(len(self.bags)):
+            if self.bags[i][0] == 0:
+                r = self.bags[i][1]
+                self.bags = self.bags[:i] + self.bags[i+1:]
+                if r > 0:
+                    self.bags.append([self.washtime, r-1])
+                return self.population * 9 + 5
+
+        self.bags.append([self.washtime, self.reusable])
+        return self.population * 9 + 5
