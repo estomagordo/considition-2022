@@ -1,3 +1,5 @@
+from math import ceil
+
 from solution import Solution
 
 bagType_price = [1.7, 1.75, 6, 25, 200]
@@ -12,13 +14,15 @@ class Solver:
         self.population = game_info['population']
         self.companyBudget = game_info['companyBudget']
         self.behavior = game_info['behavior']
+        self.day = 0
 
     def Solve(self, bagtype, days):
         self.days = days
-        self.solution = Solution('True', 10, 1, bagtype)
+        self.solution = Solution('True', 7, 1, bagtype)
 
-        for day in range(0, days):
-            self.solution.orders.append(self.wasteMoney(bagtype))
+        for _ in range(0, days):
+            self.solution.orders.append(self.newStrat(bagtype))
+            self.day += 1
         
         return self.solution
 
@@ -34,3 +38,8 @@ class Solver:
     # Solution 3: "Everyone get one bag every day"
     def holdMoney(self, bagtype):
         return int(self.companyBudget / bagType_price[bagtype] / self.population / self.days)
+
+    def newStrat(self, bagtype):
+        if self.day % 2 == 0:
+            return int(self.population * 9.3)
+        return int(self.population * 0.0)

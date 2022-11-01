@@ -6,23 +6,22 @@ api_key = ''
 with open('secret') as f:
 	api_key = f.readline().rstrip()
 
-# The different map names can be found on considition.com/rules
-# TODO: You map choice here. Unless changed, the map "Suburbia" will be selected.
-map_name = "Suburbia"
-# TODO: You bag type choice here. Unless changed, the bag type 1 will be selected.
-bag_type = 1
+map_name = 'Fancyville'
+bag_type = 2
+training_map = map_name in ('Suburbia', 'Fancyville')
 
 def main():
-	print("Starting game...")
+	print('Starting game...')
 	response = api.mapInfo(api_key, map_name)
-
-	days = 31 if map_name == "Suburbia" or map_name == "Fancyville" else 365
+	print(response)
+	days = 31 if training_map else 365
 
 	solver = Solver(game_info=response)
 	solution = solver.Solve(bag_type, days)
+	print(solution.toJSON())
 
 	submit_game_response = api.submit_game(api_key, map_name, solution)
 	print(submit_game_response)
 
-if __name__ == "__main__":
+if __name__ == '__main__':
 	main()
