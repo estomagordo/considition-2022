@@ -1,6 +1,5 @@
 from solver import Solver
 import api
-import json
 
 api_key = ''
 
@@ -8,7 +7,7 @@ with open('secret') as f:
 	api_key = f.readline().rstrip()
 
 # The different map names can be found on considition.com/rules
-# TODO: You map choice here. Unless changed, the map "training1" will be selected.
+# TODO: You map choice here. Unless changed, the map "Suburbia" will be selected.
 map_name = "Suburbia"
 # TODO: You bag type choice here. Unless changed, the bag type 1 will be selected.
 bag_type = 1

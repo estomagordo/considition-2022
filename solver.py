@@ -4,6 +4,9 @@ bagType_price = [1.7, 1.75, 6, 25, 200]
 bagType_co2_production = [5, 7, 3, 6, 20]
 bagType_co2_transport = [50, 40, 60, 70, 100]
 
+from solution import Solution
+
+
 class Solver:
     def __init__(self, game_info):
         self.population = game_info['population']
