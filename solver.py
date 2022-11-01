@@ -62,7 +62,7 @@ class Solver:
                 self.bags = self.bags[:i] + self.bags[i+1:]
                 if r > 0:
                     self.bags.append([self.washtime, r-1])
-                return self.population * 9 + 5
+                return 0
 
         self.bags.append([self.washtime, self.reusable])
         return self.population * 9 + 5
