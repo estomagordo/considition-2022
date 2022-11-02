@@ -26,10 +26,10 @@ class Solver:
         self.co2_trans = bagType_co2_transport[bagtype-1]
         self.reusable = bagType_reusable[bagtype-1]
         self.washtime = bagType_washtime[bagtype-1]
-        self.solution = Solution('True', 7, 1, bagtype)
+        self.solution = Solution('False', 7, 1, bagtype)
 
         for _ in range(days):
-            self.solution.orders.append(self.newStrat())
+            self.solution.orders.append(self.newNewStrat())
             self.day += 1
         
         return self.solution
@@ -54,10 +54,10 @@ class Solver:
 
         if not self.bags:
             self.bags.append([self.washtime, self.reusable])
-            return self.population * 9 + 5
+            return self.population * 9 + 7
         
         for i in range(len(self.bags)):
-            if self.bags[i][0] == 0:
+            if self.bags[i][0] == 1:
                 r = self.bags[i][1]
                 self.bags = self.bags[:i] + self.bags[i+1:]
                 if r > 0:
@@ -65,4 +65,17 @@ class Solver:
                 return 0
 
         self.bags.append([self.washtime, self.reusable])
-        return self.population * 9 + 5
+        return self.population * 9 + 7
+
+    def newNewStrat(self):
+        if self.day > 20:
+            if self.day % 4 < 2:
+                return 19
+            return 0
+        if self.day > 10:
+            if self.day % 4 < 2:
+                return 21
+            return 0
+        if self.day % 4 != 2:
+            return 97
+        return 0

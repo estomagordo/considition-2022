@@ -9,6 +9,7 @@ with open('secret') as f:
 map_name = 'Fancyville'
 bag_type = 2
 training_map = map_name in ('Suburbia', 'Fancyville')
+debugprint=True
 
 def main():
 	print('Starting game...')
@@ -18,10 +19,16 @@ def main():
 
 	solver = Solver(game_info=response)
 	solution = solver.Solve(bag_type, days)
+
 	print(solution.toJSON())
 
 	submit_game_response = api.submit_game(api_key, map_name, solution)
-	print(submit_game_response)
+
+	if debugprint:
+		for i, day in enumerate(submit_game_response['weekly']):
+			print(day, solution.orders[i])
+
+		print(submit_game_response['score'])
 
 if __name__ == '__main__':
 	main()
