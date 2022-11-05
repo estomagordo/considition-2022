@@ -3,8 +3,8 @@ from math import ceil
 from solution import Solution
 
 bagType_price = [1.7, 1.75, 6, 25, 200]
-bagType_co2_production = [5, 7, 3, 6, 20]
-bagType_co2_transport = [50, 40, 60, 70, 100]
+bagType_co2_production = [30, 24, 36, 42, 60]
+bagType_co2_transport = [3, 4.2, 1.8, 3.6, 12]
 bagType_reusable = [0, 1, 5, 9, 12]
 bagType_washtime = [1, 2, 3, 5, 7]
 
@@ -26,10 +26,10 @@ class Solver:
         self.co2_trans = bagType_co2_transport[bagtype-1]
         self.reusable = bagType_reusable[bagtype-1]
         self.washtime = bagType_washtime[bagtype-1]
-        self.solution = Solution('False', 7, 1, bagtype)
+        self.solution = Solution('True', 7, 1, bagtype)
 
         for _ in range(days):
-            self.solution.orders.append(self.newNewStrat())
+            self.solution.orders.append(self.best())
             self.day += 1
         
         return self.solution
@@ -79,3 +79,114 @@ class Solver:
         if self.day % 4 != 2:
             return 97
         return 0
+
+    def newNewNewStrat(self):
+        arr = [
+            70,
+            70,
+            0,
+            70,
+            70,
+            0,
+            50,
+            0,
+            50,
+            49,
+            43,
+            0,
+            43,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+        ]
+
+        return arr[self.day]
+
+    def newNewNewNewStrat(self):
+        arr = [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+        ]
+
+        return arr[self.day]
+
+    def best(self):
+        arr = [
+            270,
+            60,
+            60,
+            0,
+            0,
+            60,
+            0,
+            0,
+            60,
+            60,
+            60,
+            60,
+            60,
+            0,
+            0,
+            60,
+            0,
+            0,
+            60,
+            0,
+            60,
+            0,
+            0,
+            60,
+            20,
+            0,
+            0,
+            0,
+            50,
+            0,
+            0
+        ]
+
+        return arr[self.day]
